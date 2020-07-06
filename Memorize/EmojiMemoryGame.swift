@@ -8,23 +8,40 @@
 
 import SwiftUI
 
-class EmojiMemoryGame {
-    private var game: MemoryGame<String> = createMemoryGame()
+class EmojiMemoryGame: ObservableObject {
+    @Published private var game: MemoryGame<String> = createMemoryGame()
     
-    static func createMemoryGame() -> MemoryGame<String> {
-        let emojis: Array<String> = ["🍜", "🍣", "🥟", "🌭", "🍙", "🍚", "🍥", "🥗", "🌯", "🍕", "🍔", "🍱"].shuffled()
-        return MemoryGame<String>(numbersOfPairsOfCards: Int.random(in: 2...5)) { pairIndex in
-            return emojis[pairIndex]
-        }
+    private static func createMemoryGame() -> MemoryGame<String> {
+        let themes = [
+            MemoryGame<String>.Theme(cardContents: ["🍜", "🍣", "🥟", "🌭", "🍙", "🍚", "🍥", "🥗", "🌯", "🍕", "🍔", "🍱"], name: "Foods", pairOfCards: 3, color: .yellow),
+            MemoryGame<String>.Theme(cardContents: ["🗽", "🗼", "🏰", "🏯", "🏟", "🎡", "🎢", "🎠", "⛲️", "⛱", "🏜", "🗻"], name: "Places", pairOfCards: 3, color: .red),
+            MemoryGame<String>.Theme(cardContents: ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🥏", "🎱", "🏓", "🏸", "🏒"], name: "Sports", pairOfCards: 3, color: .blue),
+            MemoryGame<String>.Theme(cardContents: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮"], name: "Animals", pairOfCards: 3, color: .green),
+            MemoryGame<String>.Theme(cardContents: ["☀️", "🌤", "☁️", "🌦", "🌧", "🌩", "❄️", "💨", "💦", "☔️", "🌈", "🌫"], name: "Weather", pairOfCards: 3, color: .purple),
+            MemoryGame<String>.Theme(cardContents: ["😀", "🥺", "😅", "🤔", "🤣", "😇", "😉", "😍", "😋", "😜", "🧐", "🤩"], name: "Faces", pairOfCards: 3, color: .gray)
+        ]
+        return MemoryGame<String>(selectedTheme: themes.randomElement()!)
     }
     
     // MARK: - Access to model
+    
+    var score: Int {
+        return game.score
+    }
+    
+    var theme: MemoryGame<String>.Theme {
+        return game.theme
+    }
     
     var cards: Array<MemoryGame<String>.Card> {
         return game.cards
     }
     
     // MARK: - Intent(s)
+    
+    func new() {
+        game = EmojiMemoryGame.createMemoryGame()
+    }
     
     func choose(card: MemoryGame<String>.Card) {
         game.choose(card: card)

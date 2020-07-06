@@ -6,19 +6,51 @@
 //  Copyright © 2020 Xiaoyu Tai. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
-struct MemoryGame<CardContent> {
-    var cards: Array<Card>
+struct MemoryGame<CardContent> where CardContent: Equatable {
+    private(set) var cards: Array<Card>
+    private(set) var score: Int
+    private(set) var theme: Theme
     
-    func choose(card: Card) {
-        print("card chosen: \(card)")
+    private var indexOfTheOneAndOnlyFaceUpCard: Int? {
+        get {
+            cards.indices.filter { cards[$0].isFaceUp }.only
+        }
+        set {
+            for index in cards.indices {
+                cards[index].isFaceUp = index == newValue
+            }
+        }
     }
     
-    init(numbersOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
+    mutating func choose(card: Card) {
+        print("card chosen: \(card)")
+        if let choosenIndex = cards.firstIndex(matching: card), !cards[choosenIndex].isFaceUp, !cards[choosenIndex].isMatched {
+            if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
+                if cards[choosenIndex].content == cards[potentialMatchIndex].content {
+                    cards[choosenIndex].isMatched = true
+                    cards[potentialMatchIndex].isMatched = true
+                    score += 2
+                } else {
+                    score -= cards[choosenIndex].isSeen ? 1 : 0
+                    score -= cards[potentialMatchIndex].isSeen ? 1 : 0
+                }
+                cards[choosenIndex].isFaceUp = true
+            } else {
+                indexOfTheOneAndOnlyFaceUpCard = choosenIndex
+            }
+        }
+    }
+    
+    init(selectedTheme: Theme) {
         cards = Array<Card>()
-        for pairIndex in 0..<numbersOfPairsOfCards {
-            let content = cardContentFactory(pairIndex)
+        theme = selectedTheme
+        score = 0
+        let cardContents: Array<CardContent> = theme.cardContents.shuffled()
+        let pairOfCards: Int = theme.pairOfCards ?? cardContents.count
+        for pairIndex in 0..<(pairOfCards > cardContents.count ? cardContents.count : pairOfCards) {
+            let content = cardContents[pairIndex]
             cards.append(Card(content: content, id: pairIndex*2))
             cards.append(Card(content: content, id: pairIndex*2 + 1))
         }
@@ -26,9 +58,17 @@ struct MemoryGame<CardContent> {
     }
     
     struct Card: Identifiable {
-        var isFaceUp: Bool = true
+        var isFaceUp: Bool = false
         var isMatched: Bool = false
+        var isSeen: Bool = false
         var content: CardContent
         var id: Int
+    }
+    
+    struct Theme {
+        var cardContents: Array<CardContent>
+        var name: String
+        var pairOfCards: Int?
+        var color: Color
     }
 }
