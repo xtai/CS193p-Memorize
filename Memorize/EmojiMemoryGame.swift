@@ -9,41 +9,48 @@
 import SwiftUI
 
 class EmojiMemoryGame: ObservableObject {
-    @Published private var game: MemoryGame<String> = createMemoryGame()
+    @Published private var gameStore = createMemoryGame()
     
-    private static func createMemoryGame() -> MemoryGame<String> {
+    private static func createMemoryGame() -> (game: MemoryGame<String>, themeName: String, themeColor: Color) {
         let themes = [
-            MemoryGame<String>.Theme(cardContents: ["🍜", "🍣", "🥟", "🌭", "🍙", "🍚", "🍥", "🥗", "🌯", "🍕", "🍔", "🍱"], name: "Foods", pairOfCards: 3, color: .yellow),
-            MemoryGame<String>.Theme(cardContents: ["🗽", "🗼", "🏰", "🏯", "🏟", "🎡", "🎢", "🎠", "⛲️", "⛱", "🏜", "🗻"], name: "Places", pairOfCards: 3, color: .red),
-            MemoryGame<String>.Theme(cardContents: ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🥏", "🎱", "🏓", "🏸", "🏒"], name: "Sports", pairOfCards: 3, color: .blue),
-            MemoryGame<String>.Theme(cardContents: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮"], name: "Animals", pairOfCards: 3, color: .green),
-            MemoryGame<String>.Theme(cardContents: ["☀️", "🌤", "☁️", "🌦", "🌧", "🌩", "❄️", "💨", "💦", "☔️", "🌈", "🌫"], name: "Weather", pairOfCards: 3, color: .purple),
-            MemoryGame<String>.Theme(cardContents: ["😀", "🥺", "😅", "🤔", "🤣", "😇", "😉", "😍", "😋", "😜", "🧐", "🤩"], name: "Faces", pairOfCards: 3, color: .gray)
+            EmojiMemoryGameTheme(cardContents: ["🍜", "🍣", "🥟", "🌭", "🍙", "🍚", "🍥", "🥗", "🌯", "🍕", "🍔", "🍱"], name: "Foods", pairOfCards: 3, color: .yellow),
+            EmojiMemoryGameTheme(cardContents: ["🗽", "🗼", "🏰", "🏯", "🏟", "🎡", "🎢", "🎠", "⛲️", "⛱", "🏜", "🗻"], name: "Places", pairOfCards: 3, color: .red),
+            EmojiMemoryGameTheme(cardContents: ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🥏", "🎱", "🏓", "🏸", "🏒"], name: "Sports", pairOfCards: 3, color: .blue),
+            EmojiMemoryGameTheme(cardContents: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮"], name: "Animals", pairOfCards: 3, color: .green),
+            EmojiMemoryGameTheme(cardContents: ["☀️", "🌤", "☁️", "🌦", "🌧", "🌩", "❄️", "💨", "💦", "☔️", "🌈", "🌫"], name: "Weather", pairOfCards: 3, color: .purple),
+            EmojiMemoryGameTheme(cardContents: ["😀", "🥺", "😅", "🤔", "🤣", "😇", "😉", "😍", "😋", "😜", "🧐", "🤩"], name: "Faces", pairOfCards: 3, color: .gray)
         ]
-        return MemoryGame<String>(selectedTheme: themes.randomElement()!)
+        var selectedTheme = themes.randomElement()!
+        selectedTheme.cardContents.shuffle()
+        
+        return (MemoryGame<String>(cardContents: selectedTheme.cardContents, pairOfCards: selectedTheme.pairOfCards), selectedTheme.name, selectedTheme.color)
     }
     
     // MARK: - Access to model
     
     var score: Int {
-        return game.score
+        return gameStore.game.score
     }
     
-    var theme: MemoryGame<String>.Theme {
-        return game.theme
+    var themeName: String {
+        return gameStore.themeName
+    }
+    
+    var themeColor: Color {
+        return gameStore.themeColor
     }
     
     var cards: Array<MemoryGame<String>.Card> {
-        return game.cards
+        return gameStore.game.cards
     }
     
     // MARK: - Intent(s)
     
     func new() {
-        game = EmojiMemoryGame.createMemoryGame()
+        gameStore = EmojiMemoryGame.createMemoryGame()
     }
     
     func choose(card: MemoryGame<String>.Card) {
-        game.choose(card: card)
+        gameStore.game.choose(card: card)
     }
 }

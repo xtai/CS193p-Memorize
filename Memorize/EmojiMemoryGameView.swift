@@ -21,7 +21,7 @@ struct EmojiMemoryGameView: View {
                     Text("New Game").padding()
                 })
                 Spacer()
-                Text("Theme: \(self.game.theme.name)").padding()
+                Text("Theme: \(self.game.themeName)").padding()
                 Text("Score: \(self.game.score)").padding()
             }
             Grid(game.cards) { card in
@@ -32,7 +32,7 @@ struct EmojiMemoryGameView: View {
                 }
                 .padding(10)
             }
-            .foregroundColor(self.game.theme.color)
+            .foregroundColor(self.game.themeColor)
         }
     }
 }

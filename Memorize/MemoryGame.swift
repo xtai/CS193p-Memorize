@@ -11,7 +11,6 @@ import SwiftUI
 struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>
     private(set) var score: Int
-    private(set) var theme: Theme
     
     private var indexOfTheOneAndOnlyFaceUpCard: Int? {
         get {
@@ -35,6 +34,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 } else {
                     score -= cards[choosenIndex].isSeen ? 1 : 0
                     score -= cards[potentialMatchIndex].isSeen ? 1 : 0
+                    cards[choosenIndex].isSeen = true
+                    cards[potentialMatchIndex].isSeen = true
                 }
                 cards[choosenIndex].isFaceUp = true
             } else {
@@ -43,13 +44,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
     }
     
-    init(selectedTheme: Theme) {
+    init(cardContents: Array<CardContent>, pairOfCards: Int?) {
         cards = Array<Card>()
-        theme = selectedTheme
         score = 0
-        let cardContents: Array<CardContent> = theme.cardContents.shuffled()
-        let pairOfCards: Int = theme.pairOfCards ?? cardContents.count
-        for pairIndex in 0..<(pairOfCards > cardContents.count ? cardContents.count : pairOfCards) {
+        let pairs: Int = pairOfCards ?? cardContents.count
+        for pairIndex in 0..<(pairs > cardContents.count ? cardContents.count : pairs) {
             let content = cardContents[pairIndex]
             cards.append(Card(content: content, id: pairIndex*2))
             cards.append(Card(content: content, id: pairIndex*2 + 1))
@@ -127,12 +126,5 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             pastFaceUpTime = faceUpTime
             lastFaceUpDate = nil
         }
-    }
-    
-    struct Theme {
-        var cardContents: Array<CardContent>
-        var name: String
-        var pairOfCards: Int?
-        var color: Color
     }
 }
