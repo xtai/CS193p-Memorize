@@ -13,11 +13,11 @@ class EmojiMemoryGame: ObservableObject {
     
     private static func createMemoryGame() -> (game: MemoryGame<String>, themeName: String, themeColor: Color) {
         let themes = [
-            EmojiMemoryGameTheme(cardContents: ["🍜", "🍣", "🥟", "🌭", "🍙", "🍚", "🍥", "🥗", "🌯", "🍕", "🍔", "🍱"], name: "Foods", pairOfCards: 3, color: .yellow),
-            EmojiMemoryGameTheme(cardContents: ["🗽", "🗼", "🏰", "🏯", "🏟", "🎡", "🎢", "🎠", "⛲️", "⛱", "🏜", "🗻"], name: "Places", pairOfCards: 3, color: .red),
-            EmojiMemoryGameTheme(cardContents: ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🥏", "🎱", "🏓", "🏸", "🏒"], name: "Sports", pairOfCards: 3, color: .blue),
-            EmojiMemoryGameTheme(cardContents: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮"], name: "Animals", pairOfCards: 3, color: .green),
-            EmojiMemoryGameTheme(cardContents: ["☀️", "🌤", "☁️", "🌦", "🌧", "🌩", "❄️", "💨", "💦", "☔️", "🌈", "🌫"], name: "Weather", pairOfCards: 3, color: .purple),
+            EmojiMemoryGameTheme(cardContents: ["🍜", "🍣", "🥟", "🌭", "🍙", "🍚", "🍥", "🥗", "🌯", "🍕", "🍔", "🍱"], name: "Foods", color: .yellow),
+            EmojiMemoryGameTheme(cardContents: ["🗽", "🗼", "🏰", "🏯", "🏟", "🎡", "🎢", "🎠", "⛲️", "⛱", "🏜", "🗻"], name: "Places", color: .red),
+            EmojiMemoryGameTheme(cardContents: ["⚽️", "🏀", "🏈", "⚾️", "🎾", "🏐", "🏉", "🥏", "🎱", "🏓", "🏸", "🏒"], name: "Sports", color: .blue),
+            EmojiMemoryGameTheme(cardContents: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼", "🐨", "🐯", "🦁", "🐮"], name: "Animals", pairOfCards: 8, color: .green),
+            EmojiMemoryGameTheme(cardContents: ["☀️", "🌤", "☁️", "🌦", "🌧", "🌩", "❄️", "💨", "💦", "☔️", "🌈", "🌫"], name: "Weather", pairOfCards: 4, color: .purple),
             EmojiMemoryGameTheme(cardContents: ["😀", "🥺", "😅", "🤔", "🤣", "😇", "😉", "😍", "😋", "😜", "🧐", "🤩"], name: "Faces", pairOfCards: 3, color: .gray)
         ]
         var selectedTheme = themes.randomElement()!

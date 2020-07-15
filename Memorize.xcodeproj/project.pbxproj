@@ -74,22 +74,22 @@
 		33AED5E124AD812F00C25163 /* Memorize */ = {
 			isa = PBXGroup;
 			children = (
+				33AED5F024AD812F00C25163 /* Info.plist */,
 				33AED5E224AD812F00C25163 /* AppDelegate.swift */,
 				3343F77724B117E0009B1A08 /* Array+Identifiable.swift */,
 				3343F77924B1235D009B1A08 /* Arry+Only.swift */,
-				33AED5E824AD812F00C25163 /* Assets.xcassets */,
 				337A74A624B3E8400015AB8D /* Cardify.swift */,
 				338F2C0524AEFFA300878109 /* EmojiMemoryGame.swift */,
 				339FA49824B989B900E805D5 /* EmojiMemoryGameTheme.swift */,
 				33AED5E624AD812F00C25163 /* EmojiMemoryGameView.swift */,
 				3343F77324B10EBB009B1A08 /* Grid.swift */,
 				3343F77524B113D3009B1A08 /* GridLayout.swift */,
-				33AED5F024AD812F00C25163 /* Info.plist */,
-				33AED5ED24AD812F00C25163 /* LaunchScreen.storyboard */,
 				338F2C0324AE6AAF00878109 /* MemoryGame.swift */,
 				337A74A424B3E4890015AB8D /* Pie.swift */,
-				33AED5EA24AD812F00C25163 /* Preview Content */,
 				33AED5E424AD812F00C25163 /* SceneDelegate.swift */,
+				33AED5E824AD812F00C25163 /* Assets.xcassets */,
+				33AED5ED24AD812F00C25163 /* LaunchScreen.storyboard */,
+				33AED5EA24AD812F00C25163 /* Preview Content */,
 			);
 			path = Memorize;
 			sourceTree = "<group>";
