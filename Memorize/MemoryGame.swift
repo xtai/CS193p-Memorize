@@ -44,11 +44,10 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
     }
     
-    init(cardContents: Array<CardContent>, pairOfCards: Int?) {
+    init(cardContents: Array<CardContent>, pairOfCards: Int) {
         cards = Array<Card>()
         score = 0
-        let pairs: Int = pairOfCards ?? cardContents.count
-        for pairIndex in 0..<(pairs > cardContents.count ? cardContents.count : pairs) {
+        for pairIndex in 0..<(pairOfCards > cardContents.count ? cardContents.count : pairOfCards) {
             let content = cardContents[pairIndex]
             cards.append(Card(content: content, id: pairIndex*2))
             cards.append(Card(content: content, id: pairIndex*2 + 1))
